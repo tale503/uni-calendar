@@ -134,6 +134,16 @@
 				return val.getDate();
 			}
 		},
+    watch: {
+      extraData:{
+        handler(newV, oldV) {
+          if (newV !== oldV) {
+            this.month_data = newV
+          }
+        },
+        deep:true
+      }
+    },
 		computed: {
 			visibleDays() { // 计算当月展示日期
 				let {time: {year, month}, month_data} = this;
@@ -199,7 +209,8 @@
 				let d = getDate(year, month, 1);
 				d.setMonth(d.getMonth() - 1);
 				this.time = getYearMonthDay(d);
-				this.click_time = {};
+				// this.click_time = {};
+        this.$emit('monthTap', getYearMonthDay(d))
 			},
 			nextMonth() { // 下一月
 				// 获取当前的年月的日期
@@ -207,12 +218,14 @@
 				let d = getDate(year, month, 1);
 				d.setMonth(d.getMonth() + 1);
 				this.time = getYearMonthDay(d);
-				this.click_time = {};
+				// this.click_time = {};
+        this.$emit('monthTap', getYearMonthDay(d))
 			},
 			monthChange(e) {
 				let {value} = e.detail;
 				let timeArr = value.split('-');
 				this.time = {year: timeArr[0], month: timeArr[1] - 1, day: 1};
+        this.$emit('monthTap',{year: timeArr[0], month: timeArr[1] - 1, day: 1})
 			}
 		}
 	}

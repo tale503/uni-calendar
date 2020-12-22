@@ -21,7 +21,7 @@ yarn build
 ```
 <template>
     <view class="content">
-        <v-calendar name="calendar" :defaultTime="time" :extraData="extraData"  @calendarTap="calendarTap" />
+        <v-calendar name="calendar" :defaultTime="time" :extraData="extraData"  @calendarTap="calendarTap" @monthTap="monthTap" />
     </view>
 </template>
 ```
@@ -38,7 +38,11 @@ yarn build
                     {date: '2020-6-3', value: '签到', dot: true, active: true},
                     {date: '2020-6-5', value: '未签到', dot: true, active: false},
                     {date: '2020-7-3', value: '签到', dot: true, active: true}
-                ]
+                ],
+                month: {
+                    year: 2020,
+                    month: 6
+                }
             }
         },
         components: {
@@ -47,6 +51,15 @@ yarn build
         methods: {
             calendarTap(e) {
                 console.log(e);
+            },
+            monthTap(val) {
+                let {year, month} = val;
+                this.month = {
+                    year: year,
+                    month: month,
+                }
+                // 此处获取动态的数据，赋值给extraData
+                this.extraData = [{date: '2020-11-3', value: '签到', dot: true, active: true}];
             }
         }
     }
@@ -80,5 +93,6 @@ yarn build
     :defaultTime="time"
     :extraData="extraData"
     @calendarTap="calendarTap"
+    @monthTap="monthTap"
 />
 ```
